@@ -13,19 +13,25 @@ import { LayoutModule } from '@angular/cdk/layout';
 import {MatListModule} from '@angular/material/list';
 import { MachineStatusComponent } from './mainContent/machine-status/machine-status.component';
 import { PageNotFoundComponent } from './shared/page-not-found/page-not-found.component';
+import { AutoStartTimeplanComponent } from './mainContent/auto-start-timeplan/auto-start-timeplan.component';
+import { MachineMaintenanceComponent } from './mainContent/machine-maintenance/machine-maintenance.component';
+import {MatGridListModule} from '@angular/material/grid-list';
 
 @NgModule({
   declarations: [
     AppComponent,
     SidenavComponent,
     MachineStatusComponent,
-    PageNotFoundComponent
+    PageNotFoundComponent,
+    AutoStartTimeplanComponent,
+    MachineMaintenanceComponent
   ],
   imports: [
       AppRoutingModule,
       BrowserAnimationsModule,
       BrowserModule,
       MatButtonModule,
+      MatGridListModule,
       MatIconModule,
       MatSidenavModule,
       MatToolbarModule,
