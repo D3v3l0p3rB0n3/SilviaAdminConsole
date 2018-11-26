@@ -4,7 +4,7 @@
 
 export const environment = {
     production: false,
-    apiBaseUrl: 'http://localhost',
+    apiBaseUrl: 'http://0.0.0.0',
     apiBaseRef: '/coffeemachine',
     apiPort: '8080'
 };

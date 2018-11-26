@@ -1,25 +1,27 @@
 <div class="machineStatusContainer">
   <mat-grid-list  cols="2" rowHeight="2:1">
     <mat-grid-tile>
-      <ng-container>
-        <button mat-fab>
+      <ng-container *ngIf="machineStatusStatus === _backendStatus.LOADING">
+        <mat-spinner></mat-spinner>
+      </ng-container>
+      <ng-container *ngIf="machineStatusStatus === _backendStatus.SUCCESS && !_machineStatus.machineEnabled">
+        <button mat-fab (click)="switchMachineStatus()">
           <mat-icon aria-label="start coffeemachine">flash_on</mat-icon>
         </button>
       </ng-container>
-      <ng-container>
-        <button mat-fab>
+      <ng-container *ngIf="machineStatusStatus === _backendStatus.SUCCESS  && _machineStatus.machineEnabled">
+      <button mat-fab (click)="switchMachineStatus()">
           <mat-icon aria-label="stop coffeemachine">flash_off</mat-icon>
         </button>
       </ng-container>
     </mat-grid-tile>
     <mat-grid-tile>
-
-    </mat-grid-tile>
-    <mat-grid-tile>
-
-    </mat-grid-tile>
-    <mat-grid-tile>
-
+      <ng-container *ngIf="machineStatusStatus === _backendStatus.LOADING">
+        <mat-spinner></mat-spinner>
+      </ng-container>
+      <ng-container *ngIf="machineStatusStatus === _backendStatus.SUCCESS && _machineStatus.timestamp">
+        <span>{{_machineStatus.timestamp | timeAgo}}</span>
+      </ng-container>
     </mat-grid-tile>
   </mat-grid-list>
 </div>

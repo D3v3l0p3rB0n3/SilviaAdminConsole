@@ -16,6 +16,11 @@ import { PageNotFoundComponent } from './shared/page-not-found/page-not-found.co
 import { AutoStartTimeplanComponent } from './mainContent/auto-start-timeplan/auto-start-timeplan.component';
 import { MachineMaintenanceComponent } from './mainContent/machine-maintenance/machine-maintenance.component';
 import {MatGridListModule} from '@angular/material/grid-list';
+import {MachineStatusService} from '../services/machine-status.service';
+import {HttpClientModule} from '@angular/common/http';
+import {MatProgressSpinnerModule} from '@angular/material/progress-spinner';
+import {CountdownModule} from 'ngx-countdown';
+import { TimeAgoPipe } from './shared/time-ago-pipe/time-ago.pipe';
 
 @NgModule({
   declarations: [
@@ -24,11 +29,15 @@ import {MatGridListModule} from '@angular/material/grid-list';
     MachineStatusComponent,
     PageNotFoundComponent,
     AutoStartTimeplanComponent,
-    MachineMaintenanceComponent
+    MachineMaintenanceComponent,
+    TimeAgoPipe
   ],
   imports: [
+      HttpClientModule,
       AppRoutingModule,
       BrowserAnimationsModule,
+      MatProgressSpinnerModule,
+      CountdownModule,
       BrowserModule,
       MatButtonModule,
       MatGridListModule,
@@ -38,7 +47,9 @@ import {MatGridListModule} from '@angular/material/grid-list';
       LayoutModule,
       MatListModule
   ],
-  providers: [],
+  providers: [
+      MachineStatusService
+  ],
   bootstrap: [AppComponent]
 })
 export class AppModule { }
