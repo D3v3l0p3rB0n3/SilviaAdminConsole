@@ -21,6 +21,11 @@ import {HttpClientModule} from '@angular/common/http';
 import {MatProgressSpinnerModule} from '@angular/material/progress-spinner';
 import {CountdownModule} from 'ngx-countdown';
 import { TimeAgoPipe } from './shared/time-ago-pipe/time-ago.pipe';
+import {MatExpansionModule} from '@angular/material/expansion';
+import {MatCardModule} from '@angular/material/card';
+import {MatSlideToggleModule} from '@angular/material/slide-toggle';
+
+
 
 @NgModule({
   declarations: [
@@ -38,12 +43,15 @@ import { TimeAgoPipe } from './shared/time-ago-pipe/time-ago.pipe';
       BrowserAnimationsModule,
       MatProgressSpinnerModule,
       CountdownModule,
+      MatExpansionModule,
       BrowserModule,
       MatButtonModule,
+      MatSlideToggleModule,
       MatGridListModule,
       MatIconModule,
       MatSidenavModule,
       MatToolbarModule,
+      MatCardModule,
       LayoutModule,
       MatListModule
   ],

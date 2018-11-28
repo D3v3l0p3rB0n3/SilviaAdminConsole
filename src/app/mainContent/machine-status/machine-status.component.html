@@ -1,27 +1,47 @@
-<div class="machineStatusContainer">
-  <mat-grid-list  cols="2" rowHeight="2:1">
-    <mat-grid-tile>
-      <ng-container *ngIf="machineStatusStatus === _backendStatus.LOADING">
-        <mat-spinner></mat-spinner>
-      </ng-container>
-      <ng-container *ngIf="machineStatusStatus === _backendStatus.SUCCESS && !_machineStatus.machineEnabled">
-        <button mat-fab (click)="switchMachineStatus()">
-          <mat-icon aria-label="start coffeemachine">flash_on</mat-icon>
-        </button>
-      </ng-container>
-      <ng-container *ngIf="machineStatusStatus === _backendStatus.SUCCESS  && _machineStatus.machineEnabled">
-      <button mat-fab (click)="switchMachineStatus()">
-          <mat-icon aria-label="stop coffeemachine">flash_off</mat-icon>
-        </button>
-      </ng-container>
-    </mat-grid-tile>
-    <mat-grid-tile>
-      <ng-container *ngIf="machineStatusStatus === _backendStatus.LOADING">
-        <mat-spinner></mat-spinner>
-      </ng-container>
-      <ng-container *ngIf="machineStatusStatus === _backendStatus.SUCCESS && _machineStatus.timestamp">
-        <span>{{_machineStatus.timestamp | timeAgo}}</span>
-      </ng-container>
-    </mat-grid-tile>
-  </mat-grid-list>
+<div class="centerContent">
+  <div class="container">
+    <div class="row justify-content-center">
+      <div class="col-6">
+        <mat-card>
+          <mat-card-header>
+            <div mat-card-avatar></div>
+            <mat-card-title>Machine Status</mat-card-title>
+            <mat-card-subtitle>Maschine ein/ausschalten:</mat-card-subtitle>
+          </mat-card-header>
+          <mat-card-content>
+            <ng-container *ngIf="machineStatusStatus === _backendStatus.LOADING">
+              <mat-spinner></mat-spinner>
+            </ng-container>
+            <ng-container *ngIf="machineStatusStatus === _backendStatus.SUCCESS">
+              <mat-slide-toggle
+                      [color]="'accent'"
+                      [checked]="_machineStatus.machineEnabled"
+                      (change)="switchMachineStatus()"
+                      [disabled]="false">
+                {{_machineStatus.machineEnabled ? 'Maschine ausschalten' : 'Maschine einschalten'}}
+              </mat-slide-toggle>
+            </ng-container>
+          </mat-card-content>
+        </mat-card>
+      </div>
+      <div class="col-6">
+        <mat-card>
+          <mat-card-header>
+            <div mat-card-avatar></div>
+            <mat-card-title>Machine Status</mat-card-title>
+            <mat-card-subtitle>Maschine eingeschaltet seit:</mat-card-subtitle>
+          </mat-card-header>
+          <mat-card-content>
+            <ng-container *ngIf="machineStatusStatus === _backendStatus.LOADING">
+              <mat-spinner></mat-spinner>
+            </ng-container>
+            <ng-container *ngIf="machineStatusStatus === _backendStatus.SUCCESS">
+              <span>{{_machineStatus.timestamp | timeAgo}}</span>
+            </ng-container>
+          </mat-card-content>
+        </mat-card>
+      </div>
+    </div>
+  </div>
+
 </div>

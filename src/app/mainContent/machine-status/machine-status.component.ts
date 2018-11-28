@@ -3,6 +3,7 @@ import {MachineStatusService} from '../../../services/machine-status.service';
 import {Subscription} from 'rxjs';
 import {MachineStatusModel} from '../../../services/models/machine-status.model';
 import {BackendStatusEnum} from '../../../services/models/backend-status.enum';
+import {MatSlideToggleChange} from '@angular/material';
 
 @Component({
   selector: 'app-machine-status',
@@ -27,7 +28,6 @@ export class MachineStatusComponent implements OnInit, OnDestroy {
     this.machineStatusSubscription = this.machineStatusService.getMachineStatus().subscribe((machineStatus: MachineStatusModel) => {
       if (machineStatus) {
           this._machineStatus = machineStatus;
-          this._machineStatus.timestamp = Date.now();
           this.machineStatusStatus = BackendStatusEnum.SUCCESS;
       }
     });

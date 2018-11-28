@@ -10,6 +10,9 @@ export class TimeAgoPipe implements PipeTransform, OnDestroy{
     constructor(private changeDetectorRef: ChangeDetectorRef, private ngZone: NgZone) {}
 
     transform(value: string) {
+        if (!value) {
+            return '00:00:00';
+        }
         this.removeTimer();
         const d: Date = new Date(value);
         const now: Date = new Date();
