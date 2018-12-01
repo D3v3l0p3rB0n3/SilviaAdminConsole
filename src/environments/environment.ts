@@ -6,7 +6,7 @@ export const environment = {
     production: false,
     apiBaseUrl: 'http://0.0.0.0',
     apiBaseRef: '/coffeemachine',
-    apiPort: '8080'
+    apiPort: '8081'
 };
 
 /*

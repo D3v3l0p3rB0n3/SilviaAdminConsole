@@ -21,6 +21,7 @@ export class MachineStatusComponent implements OnInit, OnDestroy {
   // ui
   _backendStatus: any = BackendStatusEnum;
   machineStatusStatus: BackendStatusEnum;
+  brewCoffeeStatus: BackendStatusEnum;
 
   constructor(private machineStatusService: MachineStatusService) { }
 
@@ -32,6 +33,7 @@ export class MachineStatusComponent implements OnInit, OnDestroy {
       }
     });
     this.machineStatusStatus = BackendStatusEnum.LOADING;
+    this.brewCoffeeStatus = BackendStatusEnum.SUCCESS;
   }
 
   ngOnDestroy(): void {
