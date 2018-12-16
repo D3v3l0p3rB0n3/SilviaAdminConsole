@@ -4,6 +4,8 @@ import {Subscription} from 'rxjs';
 import {MachineStatusModel} from '../../../services/models/machine-status.model';
 import {BackendStatusEnum} from '../../../services/models/backend-status.enum';
 import {MatSlideToggleChange} from '@angular/material';
+import {BrewService} from '../../../services/brew.service';
+import {BrewStatusEnum} from '../../../services/models/brew-status.enum';
 
 @Component({
   selector: 'app-machine-status',
@@ -17,13 +19,17 @@ export class MachineStatusComponent implements OnInit, OnDestroy {
   // Subscriptions
   machineStatusSubscription: Subscription;
   setMachineStatusSubscription: Subscription;
+  startBrewingSubscription: Subscription;
 
   // ui
   _backendStatus: any = BackendStatusEnum;
+  _brewStatus: any = BrewStatusEnum;
   machineStatusStatus: BackendStatusEnum;
-  brewCoffeeStatus: BackendStatusEnum;
+  brewCoffeeStatus: BrewStatusEnum;
+  brewProgress: number;
 
-  constructor(private machineStatusService: MachineStatusService) { }
+  constructor(private machineStatusService: MachineStatusService,
+              private brewService: BrewService) {}
 
   ngOnInit() {
     this.machineStatusSubscription = this.machineStatusService.getMachineStatus().subscribe((machineStatus: MachineStatusModel) => {
@@ -33,11 +39,13 @@ export class MachineStatusComponent implements OnInit, OnDestroy {
       }
     });
     this.machineStatusStatus = BackendStatusEnum.LOADING;
-    this.brewCoffeeStatus = BackendStatusEnum.SUCCESS;
+    this.brewCoffeeStatus = BrewStatusEnum.NotBrewing;
   }
 
   ngOnDestroy(): void {
       this.machineStatusSubscription.unsubscribe();
+      this.setMachineStatusSubscription.unsubscribe();
+      this.startBrewingSubscription.unsubscribe();
   }
 
   switchMachineStatus(): void {
@@ -46,7 +54,37 @@ export class MachineStatusComponent implements OnInit, OnDestroy {
             this._machineStatus = machineStatus;
             this.machineStatusStatus = BackendStatusEnum.SUCCESS;
         }
+        if (!machineStatus.machineEnabled) {
+            this.brewCoffeeStatus = BrewStatusEnum.NotBrewing;
+        }
     });
   }
 
+  brewCoffee(brewTime: number): void {
+      this.brewCoffeeStatus = BrewStatusEnum.PendingForBrew;
+      this.startBrewingSubscription = this.brewService.startBrewing(brewTime).subscribe(() => {
+          this.startBrewCountdown(brewTime);
+      });
+  }
+
+  cancelBrewCoffee(): void {
+      this.startBrewingSubscription = this.brewService.cancelBrewing().subscribe(() => {
+          this.brewCoffeeStatus = BrewStatusEnum.NotBrewing;
+      });
+  }
+
+  private startBrewCountdown(brewTime: number): void {
+      this.brewCoffeeStatus = BrewStatusEnum.Brewing;
+      const timer: number = brewTime / 100 * 1000;
+      this.brewProgress = 0;
+      let intervallID: number;
+      const intervallFunction: any = function () {
+          this.brewProgress = this.brewProgress + 1;
+          if (this.brewProgress === 100) {
+              this.brewCoffeeStatus = BrewStatusEnum.NotBrewing;
+              clearInterval(intervallID);
+          }
+      };
+      intervallID = setInterval(intervallFunction.bind(this), timer);
+  }
 }

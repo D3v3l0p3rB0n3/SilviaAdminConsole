@@ -24,8 +24,9 @@ import {MatExpansionModule} from '@angular/material/expansion';
 import {MatCardModule} from '@angular/material/card';
 import {MatSlideToggleModule} from '@angular/material/slide-toggle';
 import {MatFormFieldModule} from '@angular/material/form-field';
-
-
+import {MatSliderModule} from '@angular/material/slider';
+import {BrewService} from '../services/brew.service';
+import {MatProgressBarModule} from '@angular/material/progress-bar';
 
 @NgModule({
   declarations: [
@@ -40,6 +41,7 @@ import {MatFormFieldModule} from '@angular/material/form-field';
   imports: [
       HttpClientModule,
       AppRoutingModule,
+      MatSliderModule,
       BrowserAnimationsModule,
       MatFormFieldModule,
       MatProgressSpinnerModule,
@@ -53,10 +55,12 @@ import {MatFormFieldModule} from '@angular/material/form-field';
       MatToolbarModule,
       MatCardModule,
       LayoutModule,
-      MatListModule
+      MatListModule,
+      MatProgressBarModule
   ],
   providers: [
-      MachineStatusService
+      MachineStatusService,
+      BrewService
   ],
   bootstrap: [AppComponent]
 })
