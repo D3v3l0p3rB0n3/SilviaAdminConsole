@@ -7,7 +7,7 @@
         <app-sidenav></app-sidenav>
     </mat-sidenav>
     <mat-sidenav-content>
-        <mat-toolbar color="primary">
+        <mat-toolbar style="position: fixed" color="primary">
             <button
                     type="button"
                     aria-label="Toggle sidenav"
@@ -17,8 +17,10 @@
             </button>
             <span>Rancilio Silvia Konsole</span>
         </mat-toolbar>
-        <span class="menuClickArea" (click)="drawer.close()">
-            <router-outlet></router-outlet>
-        </span>
+        <main>
+            <span cdkScrollable class="menuClickArea" (click)="drawer.close()">
+                <router-outlet></router-outlet>
+            </span>
+        </main>
     </mat-sidenav-content>
 </mat-sidenav-container>

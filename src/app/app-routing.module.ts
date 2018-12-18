@@ -1,4 +1,4 @@
-import { NgModule } from '@angular/core';
+import {ModuleWithProviders, NgModule} from '@angular/core';
 import { Routes, RouterModule } from '@angular/router';
 import {MachineStatusComponent} from './mainContent/machine-status/machine-status.component';
 import {PageNotFoundComponent} from './shared/page-not-found/page-not-found.component';
@@ -16,8 +16,5 @@ const routes: Routes = [
     { path: '**', component: PageNotFoundComponent }
 ];
 
-@NgModule({
-  imports: [RouterModule.forRoot(routes)],
-  exports: [RouterModule]
-})
-export class AppRoutingModule { }
+export const APP_ROUTING: ModuleWithProviders = RouterModule.forRoot(routes, {useHash: true});
+
