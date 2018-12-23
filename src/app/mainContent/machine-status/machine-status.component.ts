@@ -6,6 +6,7 @@ import {BackendStatusEnum} from '../../../services/models/backend-status.enum';
 import {MatSlideToggleChange} from '@angular/material';
 import {BrewService} from '../../../services/brew.service';
 import {BrewStatusEnum} from '../../../services/models/brew-status.enum';
+import {MaintenanceService} from '../../../services/maintenance.service';
 
 @Component({
   selector: 'app-machine-status',
@@ -27,9 +28,11 @@ export class MachineStatusComponent implements OnInit, OnDestroy {
   machineStatusStatus: BackendStatusEnum;
   brewCoffeeStatus: BrewStatusEnum;
   brewProgress: number;
+  breakpoint: number;
 
   constructor(private machineStatusService: MachineStatusService,
-              private brewService: BrewService) {}
+              private brewService: BrewService,
+              private maintenanceService: MaintenanceService) {}
 
   ngOnInit() {
     this.machineStatusSubscription = this.machineStatusService.getMachineStatus().subscribe((machineStatus: MachineStatusModel) => {
@@ -40,6 +43,7 @@ export class MachineStatusComponent implements OnInit, OnDestroy {
     });
     this.machineStatusStatus = BackendStatusEnum.LOADING;
     this.brewCoffeeStatus = BrewStatusEnum.NotBrewing;
+      this.breakpoint = (window.innerWidth <= 720) ? 1 : (window.innerWidth <= 1460) ? 2 : 4;
   }
 
   ngOnDestroy(): void {
@@ -87,4 +91,9 @@ export class MachineStatusComponent implements OnInit, OnDestroy {
       };
       intervallID = setInterval(intervallFunction.bind(this), timer);
   }
+
+    onResize(event) {
+      this.breakpoint =
+          this.breakpoint = (event.target.innerWidth <= 720) ? 1 : (event.target.innerWidth <= 1460) ? 2 : 4;
+    }
 }

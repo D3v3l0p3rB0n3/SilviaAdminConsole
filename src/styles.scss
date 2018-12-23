@@ -2,7 +2,9 @@
 @import "~@angular/material/prebuilt-themes/indigo-pink.css";
 @import '../node_modules/bootstrap/scss/bootstrap';
 
-body {
+html, body {
   font-family: Roboto, Arial, sans-serif;
+  height: 100%;
+  width: 100%;
   margin: 0;
 }

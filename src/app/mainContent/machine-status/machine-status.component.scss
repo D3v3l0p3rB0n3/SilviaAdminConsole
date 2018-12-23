@@ -1,12 +1,20 @@
-.centerContent {
-  top: 64px;
+.status-container {
   position: relative;
-  display:flex;
-  align-items:center;
-  height: 100vh;
+  height: 100%;
 
-  & .margin-cards{
-    margin-bottom: 50px;
+  & .centerContentFull {
+    position: relative;
+    top: 30%;
+  }
+
+  & .centerContentMD {
+    position: relative;
+    top: 12%;
+  }
+
+  & .centerContentS {
+    position: relative;
+    top: 5%;
   }
 
   & mat-spinner{
@@ -30,4 +38,8 @@
     font-size: 40pt;
     margin: 30px;
   }
+   & mat-progress-bar {
+     margin-top: 22px;
+     margin-bottom: 22px;
+   }
 }

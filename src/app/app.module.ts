@@ -28,6 +28,7 @@ import {BrewService} from '../services/brew.service';
 import {MatProgressBarModule} from '@angular/material/progress-bar';
 import {ScrollingModule} from '@angular/cdk/scrolling';
 import {APP_ROUTING} from './app-routing.module';
+import {MaintenanceService} from '../services/maintenance.service';
 
 @NgModule({
   declarations: [
@@ -62,7 +63,8 @@ import {APP_ROUTING} from './app-routing.module';
   ],
   providers: [
       MachineStatusService,
-      BrewService
+      BrewService,
+      MaintenanceService
   ],
   bootstrap: [AppComponent]
 })

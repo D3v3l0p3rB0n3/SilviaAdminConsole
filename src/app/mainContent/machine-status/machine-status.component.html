@@ -1,106 +1,159 @@
-<div class="centerContent">
-  <div class="container">
-    <div class="row">
-      <div class="col-12 col-sm-12 col-md-12 col-lg-6 col-xl-6 margin-cards">
-        <mat-card>
-          <mat-card-header>
-            <div mat-card-avatar></div>
-            <mat-card-title>Machine Status</mat-card-title>
-            <mat-card-subtitle>Maschine ein/ausschalten:</mat-card-subtitle>
-          </mat-card-header>
-          <mat-card-content>
-            <ng-container *ngIf="machineStatusStatus === _backendStatus.LOADING">
-              <mat-spinner></mat-spinner>
-            </ng-container>
-            <ng-container *ngIf="machineStatusStatus === _backendStatus.SUCCESS">
-              <button
-                      mat-flat-button
-                      color="primary"
-                      (click)="switchMachineStatus()"
-              style="margin-top: 25px;
+<div class="status-container">
+  <mat-grid-list [cols]="breakpoint" rowHeight="10:6" (window:resize)="onResize($event)" [class.centerContentFull]="breakpoint === 4" [class.centerContentMD]="breakpoint === 2" [class.centerContentS]="breakpoint === 1">
+    <mat-grid-tile>
+      <mat-card>
+        <mat-card-header>
+          <div mat-card-avatar></div>
+          <mat-card-title>Machine Status</mat-card-title>
+          <mat-card-subtitle>Maschine ein/ausschalten:</mat-card-subtitle>
+        </mat-card-header>
+        <mat-card-content>
+          <ng-container *ngIf="machineStatusStatus === _backendStatus.LOADING">
+            <mat-spinner></mat-spinner>
+          </ng-container>
+          <ng-container *ngIf="machineStatusStatus === _backendStatus.SUCCESS">
+            <button
+                    mat-flat-button
+                    color="primary"
+                    (click)="switchMachineStatus()"
+                    style="margin-top: 25px;
                      margin-bottom: 18px">
-                {{_machineStatus.machineEnabled ? 'Maschine ausschalten' : 'Maschine einschalten'}}
-              </button>
-            </ng-container>
-          </mat-card-content>
-        </mat-card>
-      </div>
-      <div class="col-12 col-sm-12 col-md-12 col-lg-6 col-xl-6 margin-cards">
-        <mat-card>
-          <mat-card-header>
-            <div mat-card-avatar></div>
-            <mat-card-title>Machine Status</mat-card-title>
-            <mat-card-subtitle>Maschine eingeschaltet seit:</mat-card-subtitle>
-          </mat-card-header>
-          <mat-card-content>
-            <ng-container *ngIf="machineStatusStatus === _backendStatus.LOADING">
-              <mat-spinner></mat-spinner>
-            </ng-container>
-            <ng-container *ngIf="machineStatusStatus === _backendStatus.SUCCESS">
-              <span>{{_machineStatus.timestamp | timeAgo}}</span>
-            </ng-container>
-          </mat-card-content>
-        </mat-card>
-      </div>
-    </div>
-    <div class="row">
-      <div class="col-12 col-sm-12 col-md-12 col-lg-12 col-xl-12">
-        <mat-card>
-          <mat-card-header>
-            <div mat-card-avatar></div>
-            <mat-card-title>Machine Status</mat-card-title>
-            <mat-card-subtitle>Kaffee zubereiten</mat-card-subtitle>
-          </mat-card-header>
-          <mat-card-content>
-            <ng-container *ngIf="brewCoffeeStatus === _brewStatus.NotBrewing">
-              <div class="row justify-content-center">
-                <div class="col-12">
-                  <mat-slider
-                          #brewtime
-                          style="width: 95%"
-                          min="25"
-                          max="40"
-                          step="1"
-                          value="33"
-                          [thumbLabel]="true">
-                  </mat-slider>
-                </div>
+              {{_machineStatus.machineEnabled ? 'Maschine ausschalten' : 'Maschine einschalten'}}
+            </button>
+          </ng-container>
+        </mat-card-content>
+      </mat-card>
+    </mat-grid-tile>
+    <mat-grid-tile>
+      <mat-card>
+      <mat-card-header>
+        <div mat-card-avatar></div>
+        <mat-card-title>Machine Status</mat-card-title>
+        <mat-card-subtitle>Maschine eingeschaltet seit:</mat-card-subtitle>
+      </mat-card-header>
+      <mat-card-content>
+        <ng-container *ngIf="machineStatusStatus === _backendStatus.LOADING">
+          <mat-spinner></mat-spinner>
+        </ng-container>
+        <ng-container *ngIf="machineStatusStatus === _backendStatus.SUCCESS">
+          <span>{{_machineStatus.timestamp | timeAgo}}</span>
+        </ng-container>
+      </mat-card-content>
+    </mat-card>
+    </mat-grid-tile>
+    <mat-grid-tile>
+      <mat-card>
+        <mat-card-header>
+          <div mat-card-avatar></div>
+          <mat-card-title>Machine Status</mat-card-title>
+          <mat-card-subtitle>Kaffee zubereiten</mat-card-subtitle>
+        </mat-card-header>
+        <mat-card-content>
+          <ng-container *ngIf="brewCoffeeStatus === _brewStatus.NotBrewing">
+            <div class="row justify-content-center">
+              <div class="col-12">
+                <mat-slider
+                        #brewtime
+                        style="width: 95%"
+                        min="25"
+                        max="40"
+                        step="1"
+                        value="35"
+                        [thumbLabel]="true">
+                </mat-slider>
               </div>
-              <button
-                      mat-flat-button
-                      color="primary"
-                      [disabled]=" _machineStatus && !_machineStatus.machineEnabled ? true : false"
-                      (click)="brewCoffee(brewtime.value)"
-                      style="margin-top: 25px;
+            </div>
+            <button
+                    mat-flat-button
+                    color="primary"
+                    [disabled]=" _machineStatus && !_machineStatus.machineEnabled ? true : false"
+                    (click)="brewCoffee(brewtime.value)"
+                    style="margin-top: 25px;
                      margin-bottom: 18px">
-                {{'Kaffee für ' + brewtime.value + 's zubereiten'}}
-              </button>
-            </ng-container>
-            <ng-container *ngIf="brewCoffeeStatus === _brewStatus.PendingForBrew">
-              <div class="row justify-content-center">
-                <div class="col-12">
-                  <mat-progress-bar style="width: 95%" mode="indeterminate"></mat-progress-bar>
-                </div>
+              {{'Kaffee für ' + brewtime.value + 's zubereiten'}}
+            </button>
+          </ng-container>
+          <ng-container *ngIf="brewCoffeeStatus === _brewStatus.PendingForBrew">
+            <div class="row justify-content-center">
+              <div class="col-12">
+                <mat-progress-bar style="width: 95%" mode="indeterminate"></mat-progress-bar>
               </div>
-            </ng-container>
-            <ng-container *ngIf="brewCoffeeStatus === _brewStatus.Brewing">
-              <div class="row justify-content-center">
-                <div class="col-12">
-                  <mat-progress-bar mode="determinate" [value]="brewProgress"></mat-progress-bar>
-                </div>
+            </div>
+          </ng-container>
+          <ng-container *ngIf="brewCoffeeStatus === _brewStatus.Brewing">
+            <div class="row justify-content-center">
+              <div class="col-12">
+                <mat-progress-bar mode="determinate" [value]="brewProgress"></mat-progress-bar>
               </div>
-              <button
-                      mat-flat-button
-                      color="primary"
-                      (click)="cancelBrewCoffee()"
-                      style="margin-top: 25px;
+            </div>
+            <button
+                    mat-flat-button
+                    color="primary"
+                    (click)="cancelBrewCoffee()"
+                    style="margin-top: 25px;
                      margin-bottom: 18px">
-                Abbrechen
-              </button>
-            </ng-container>
-          </mat-card-content>
-        </mat-card>
-      </div>
-    </div>
-  </div>
+              Abbrechen
+            </button>
+          </ng-container>
+        </mat-card-content>
+      </mat-card>
+    </mat-grid-tile>
+    <!--<mat-grid-tile>
+      <mat-card>
+        <mat-card-header>
+          <div mat-card-avatar></div>
+          <mat-card-title>Machine Wartung</mat-card-title>
+          <mat-card-subtitle>Rückspülung starten</mat-card-subtitle>
+        </mat-card-header>
+        <mat-card-content>
+          <ng-container *ngIf="brewCoffeeStatus === _brewStatus.NotBrewing">
+            <div class="row justify-content-center">
+              <div class="col-12">
+                <mat-slider
+                        #brewtime
+                        style="width: 95%"
+                        min="25"
+                        max="40"
+                        step="1"
+                        value="35"
+                        [thumbLabel]="true">
+                </mat-slider>
+              </div>
+            </div>
+            <button
+                    mat-flat-button
+                    color="primary"
+                    [disabled]=" _machineStatus && !_machineStatus.machineEnabled ? true : false"
+                    (click)="brewCoffee(brewtime.value)"
+                    style="margin-top: 25px;
+                     margin-bottom: 18px">
+              {{'Kaffee für ' + brewtime.value + 's zubereiten'}}
+            </button>
+          </ng-container>
+          <ng-container *ngIf="brewCoffeeStatus === _brewStatus.PendingForBrew">
+            <div class="row justify-content-center">
+              <div class="col-12">
+                <mat-progress-bar style="width: 95%" mode="indeterminate"></mat-progress-bar>
+              </div>
+            </div>
+          </ng-container>
+          <ng-container *ngIf="brewCoffeeStatus === _brewStatus.Brewing">
+            <div class="row justify-content-center">
+              <div class="col-12">
+                <mat-progress-bar mode="determinate" [value]="brewProgress"></mat-progress-bar>
+              </div>
+            </div>
+            <button
+                    mat-flat-button
+                    color="primary"
+                    (click)="cancelBrewCoffee()"
+                    style="margin-top: 25px;
+                     margin-bottom: 18px">
+              Abbrechen
+            </button>
+          </ng-container>
+        </mat-card-content>
+      </mat-card>
+    </mat-grid-tile>-->
+  </mat-grid-list>
 </div>
