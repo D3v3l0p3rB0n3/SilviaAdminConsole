@@ -47,9 +47,15 @@ export class MachineStatusComponent implements OnInit, OnDestroy {
   }
 
   ngOnDestroy(): void {
-      this.machineStatusSubscription.unsubscribe();
-      this.setMachineStatusSubscription.unsubscribe();
-      this.startBrewingSubscription.unsubscribe();
+      if (this.machineStatusSubscription) {
+          this.machineStatusSubscription.unsubscribe();
+      }
+      if (this.setMachineStatusSubscription) {
+          this.setMachineStatusSubscription.unsubscribe();
+      }
+      if (this.startBrewingSubscription) {
+          this.startBrewingSubscription.unsubscribe();
+      }
   }
 
   switchMachineStatus(): void {

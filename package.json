@@ -3,8 +3,7 @@
   "version": "0.0.0",
   "scripts": {
     "ng": "ng",
-    "start": "ng serve --aot",
-    "start:local:dev": "ng serve --configuration=dev",
+    "start": "ng serve --configuration=dev",
     "build": "ng build --aot --base-href /AdminConsole/ --configuration=production",
     "test": "ng test",
     "lint": "ng lint",

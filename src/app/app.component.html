@@ -4,7 +4,11 @@
                  [mode]="(isHandset$ | async) ? 'over' : 'side'"
                  [opened]="false">
         <mat-toolbar>Menu</mat-toolbar>
-        <app-sidenav></app-sidenav>
+        <mat-nav-list>
+            <a mat-list-item (click)="router.navigate(['status']); drawer.toggle();">Maschinen-Status</a>
+            <a mat-list-item (click)="router.navigate(['startTimeplan']); drawer.toggle();">Autostart Zeitplan</a>
+            <a mat-list-item (click)="router.navigate(['maintenance']); drawer.toggle();">Wartung</a>
+        </mat-nav-list>
     </mat-sidenav>
     <mat-sidenav-content>
         <mat-toolbar color="primary">

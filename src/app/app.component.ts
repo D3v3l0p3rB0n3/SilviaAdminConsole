@@ -2,6 +2,7 @@ import { Component } from '@angular/core';
 import {Observable} from 'rxjs';
 import {BreakpointObserver, Breakpoints} from '@angular/cdk/layout';
 import {map} from 'rxjs/operators';
+import {Router} from '@angular/router';
 
 @Component({
   selector: 'app-root',
@@ -14,5 +15,6 @@ export class AppComponent {
             map(result => result.matches)
         );
 
-    constructor(private breakpointObserver: BreakpointObserver) {}
+    constructor(private breakpointObserver: BreakpointObserver,
+                public router: Router) {}
 }
