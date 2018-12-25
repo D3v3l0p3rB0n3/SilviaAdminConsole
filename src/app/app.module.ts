@@ -7,7 +7,6 @@ import {MatToolbarModule} from '@angular/material/toolbar';
 import {MatSidenavModule} from '@angular/material/sidenav';
 import {MatButtonModule} from '@angular/material/button';
 import {MatIconModule} from '@angular/material/icon';
-import { SidenavComponent } from './sidenav/sidenav.component';
 import { LayoutModule } from '@angular/cdk/layout';
 import {MatListModule} from '@angular/material/list';
 import { MachineStatusComponent } from './mainContent/machine-status/machine-status.component';
@@ -33,37 +32,36 @@ import {MaintenanceService} from '../services/maintenance.service';
 @NgModule({
   declarations: [
     AppComponent,
-    SidenavComponent,
-    MachineStatusComponent,
-    PageNotFoundComponent,
     AutoStartTimeplanComponent,
     MachineMaintenanceComponent,
+    MachineStatusComponent,
+    PageNotFoundComponent,
     TimeAgoPipe
   ],
   imports: [
-      HttpClientModule,
       APP_ROUTING,
-      MatSliderModule,
       BrowserAnimationsModule,
-      MatFormFieldModule,
-      MatProgressSpinnerModule,
-      MatExpansionModule,
       BrowserModule,
+      HttpClientModule,
+      LayoutModule,
       MatButtonModule,
-      MatSlideToggleModule,
+      MatCardModule,
+      MatExpansionModule,
+      MatFormFieldModule,
       MatGridListModule,
       MatIconModule,
-      MatSidenavModule,
-      MatToolbarModule,
-      MatCardModule,
-      LayoutModule,
       MatListModule,
       MatProgressBarModule,
+      MatProgressSpinnerModule,
+      MatSidenavModule,
+      MatSliderModule,
+      MatSlideToggleModule,
+      MatToolbarModule,
       ScrollingModule
   ],
   providers: [
-      MachineStatusService,
       BrewService,
+      MachineStatusService,
       MaintenanceService
   ],
   bootstrap: [AppComponent]
