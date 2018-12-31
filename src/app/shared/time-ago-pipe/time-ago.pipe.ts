@@ -27,8 +27,8 @@ export class TimeAgoPipe implements PipeTransform, OnDestroy{
         const seconds: number = Math.round(Math.abs((now.getTime() - d.getTime()) / 1000));
 
         const hoursToDisplay: number = Math.floor(seconds / 3600);
-        const minutesToDisplay: number = Math.floor((seconds - hoursToDisplay * 60) / 60 );
-        const secondsToDisplay: number = seconds - (minutesToDisplay * 60);
+        const minutesToDisplay: number = Math.floor((seconds - hoursToDisplay * 3600) / 60 );
+        const secondsToDisplay: number = seconds - (minutesToDisplay * 60 + hoursToDisplay * 3600);
 
         const hoursString: string = hoursToDisplay <= 9 ? '0' + hoursToDisplay.toString() : hoursToDisplay.toString();
         const minutesString: string  = minutesToDisplay <= 9 ? '0' + minutesToDisplay.toString() : minutesToDisplay.toString();

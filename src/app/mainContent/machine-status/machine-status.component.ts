@@ -3,10 +3,8 @@ import {MachineStatusService} from '../../../services/machine-status.service';
 import {Subscription} from 'rxjs';
 import {MachineStatusModel} from '../../../services/models/machine-status.model';
 import {BackendStatusEnum} from '../../../services/models/backend-status.enum';
-import {MatSlideToggleChange} from '@angular/material';
 import {BrewService} from '../../../services/brew.service';
 import {BrewStatusEnum} from '../../../services/models/brew-status.enum';
-import {MaintenanceService} from '../../../services/maintenance.service';
 
 @Component({
   selector: 'app-machine-status',
@@ -31,8 +29,7 @@ export class MachineStatusComponent implements OnInit, OnDestroy {
   breakpoint: number;
 
   constructor(private machineStatusService: MachineStatusService,
-              private brewService: BrewService,
-              private maintenanceService: MaintenanceService) {}
+              private brewService: BrewService) {}
 
   ngOnInit() {
     this.machineStatusSubscription = this.machineStatusService.getMachineStatus().subscribe((machineStatus: MachineStatusModel) => {
