@@ -10,13 +10,13 @@ export class MaintenanceService {
     }
 
     startBackflashing(): Observable<any> {
-        return this.http.post(
+        return this.http.put(
             `${environment.apiBaseUrl}:${environment.apiPort}${environment.apiBaseRef}/backFlush`, null
         );
     }
 
     cancelBackflashing(): Observable<any> {
-        return this.http.post(
+        return this.http.put(
             `${environment.apiBaseUrl}:${environment.apiPort}${environment.apiBaseRef}/cancelBackFlush`, null
         );
     }

@@ -11,21 +11,11 @@ export class MachineStatusService {
     }
 
     /**
-     * Service to get status if the machine in on or off
-     * returns a timestamp when the machine was started
-     */
-    getMachineStatus(): Observable<MachineStatusModel> {
-        return this.http.get<MachineStatusModel>(
-            `${environment.apiBaseUrl}:${environment.apiPort}${environment.apiBaseRef}/machineStatus`
-        );
-    }
-
-    /**
      * Service to switch the status of the machine
      * returns a timestamp when the machine was started
      */
     setMachineStatus(): Observable<MachineStatusModel> {
-        return this.http.post<MachineStatusModel>(
+        return this.http.put<MachineStatusModel>(
             `${environment.apiBaseUrl}:${environment.apiPort}${environment.apiBaseRef}/machineStatus`,
             null
         );

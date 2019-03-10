@@ -5,6 +5,8 @@ import {MachineStatusModel} from '../../../services/models/machine-status.model'
 import {BackendStatusEnum} from '../../../services/models/backend-status.enum';
 import {BrewService} from '../../../services/brew.service';
 import {BrewStatusEnum} from '../../../services/models/brew-status.enum';
+import * as SockJS from 'sockjs-client';
+import {environment} from '../../../environments/environment';
 
 @Component({
   selector: 'app-machine-status',
@@ -12,6 +14,9 @@ import {BrewStatusEnum} from '../../../services/models/brew-status.enum';
   styleUrls: ['./machine-status.component.scss']
 })
 export class MachineStatusComponent implements OnInit, OnDestroy {
+
+  sockJS;
+
   // models
   _machineStatus: MachineStatusModel;
 
@@ -32,15 +37,19 @@ export class MachineStatusComponent implements OnInit, OnDestroy {
               private brewService: BrewService) {}
 
   ngOnInit() {
-    this.machineStatusSubscription = this.machineStatusService.getMachineStatus().subscribe((machineStatus: MachineStatusModel) => {
-      if (machineStatus) {
-          this._machineStatus = machineStatus;
-          this.machineStatusStatus = BackendStatusEnum.SUCCESS;
-      }
-    });
     this.machineStatusStatus = BackendStatusEnum.LOADING;
     this.brewCoffeeStatus = BrewStatusEnum.NotBrewing;
-      this.breakpoint = (window.innerWidth <= 720) ? 1 : (window.innerWidth <= 1460) ? 2 : 4;
+    this.breakpoint = (window.innerWidth <= 720) ? 1 : (window.innerWidth <= 1460) ? 2 : 4;
+
+    this.sockJS = new SockJS(`${environment.apiBaseUrl}:${environment.apiPort}${environment.sockJSBaseRef}`);
+      const onMessageFunction: Function = function(e) {
+          this._machineStatus = JSON.parse(e.data);
+          if (!this._machineStatus.machineEnabled) {
+              this.brewCoffeeStatus = BrewStatusEnum.NotBrewing;
+          }
+          this.machineStatusStatus = BackendStatusEnum.SUCCESS;
+      };
+    this.sockJS.onmessage = onMessageFunction.bind(this);
   }
 
   ngOnDestroy(): void {
@@ -56,14 +65,7 @@ export class MachineStatusComponent implements OnInit, OnDestroy {
   }
 
   switchMachineStatus(): void {
-    this.setMachineStatusSubscription = this.machineStatusService.setMachineStatus().subscribe((machineStatus: MachineStatusModel) => {
-        if (machineStatus) {
-            this._machineStatus = machineStatus;
-            this.machineStatusStatus = BackendStatusEnum.SUCCESS;
-        }
-        if (!machineStatus.machineEnabled) {
-            this.brewCoffeeStatus = BrewStatusEnum.NotBrewing;
-        }
+    this.setMachineStatusSubscription = this.machineStatusService.setMachineStatus().subscribe(() => {
     });
   }
 

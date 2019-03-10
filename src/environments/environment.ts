@@ -6,6 +6,7 @@ export const environment = {
     production: false,
     apiBaseUrl: 'http://0.0.0.0',
     apiBaseRef: '/coffeemachine',
+    sockJSBaseRef: '/machineStatusWebSocket',
     apiPort: '8081'
 };
 

@@ -10,7 +10,7 @@ export class BrewService {
     }
 
     startBrewing(brewTime: number): Observable<any> {
-        return this.http.post(
+        return this.http.put(
             `${environment.apiBaseUrl}:${environment.apiPort}${environment.apiBaseRef}/startBrewing`,
             {
                 brewTime: brewTime
@@ -19,7 +19,7 @@ export class BrewService {
     }
 
     cancelBrewing(): Observable<any> {
-        return this.http.post(
+        return this.http.put(
             `${environment.apiBaseUrl}:${environment.apiPort}${environment.apiBaseRef}/cancelBrewing`,
             null
         );

@@ -4,6 +4,9 @@ import {BackflushingStatusEnum} from '../../../services/models/backflushing-stat
 import {MachineStatusService} from '../../../services/machine-status.service';
 import {MachineStatusModel} from '../../../services/models/machine-status.model';
 import {Subscription} from 'rxjs';
+import * as SockJS from 'sockjs-client';
+import {environment} from '../../../environments/environment';
+import {BackendStatusEnum} from '../../../services/models/backend-status.enum';
 import {BrewStatusEnum} from '../../../services/models/brew-status.enum';
 
 @Component({
@@ -12,6 +15,7 @@ import {BrewStatusEnum} from '../../../services/models/brew-status.enum';
   styleUrls: ['./machine-maintenance.component.scss']
 })
 export class MachineMaintenanceComponent implements OnInit, OnDestroy {
+    sockJS;
 
     // models
     _machineStatus: MachineStatusModel;
@@ -32,11 +36,11 @@ export class MachineMaintenanceComponent implements OnInit, OnDestroy {
 
   ngOnInit() {
       this.backflushingStatus = BackflushingStatusEnum.NotFlushing;
-      this.machineStatusSubscription = this.machineStatusService.getMachineStatus().subscribe((machineStatus: MachineStatusModel) => {
-          if (machineStatus) {
-              this._machineStatus = machineStatus;
-          }
-      });
+      this.sockJS = new SockJS(`${environment.apiBaseUrl}:${environment.apiPort}${environment.sockJSBaseRef}`);
+      const onMessageFunction: Function = function(e) {
+          this._machineStatus = JSON.parse(e.data);
+      };
+      this.sockJS.onmessage = onMessageFunction.bind(this);
       this.breakpoint = (window.innerWidth <= 720) ? 1 : (window.innerWidth <= 1460) ? 2 : 4;
   }
 
