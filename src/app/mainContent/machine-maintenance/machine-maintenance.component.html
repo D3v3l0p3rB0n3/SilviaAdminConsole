@@ -12,7 +12,7 @@
               <button
                       mat-flat-button
                       color="primary"
-                      [disabled]=" _machineStatus && !_machineStatus.machineEnabled ? true : false"
+                      [disabled]="socketService.machineStatus && !socketService.machineStatus.machineEnabled ? true : false"
                       (click)="startFlushing()"
                       style="margin-top: 25px;
                        margin-bottom: 18px">
@@ -44,5 +44,49 @@
           </mat-card-content>
         </mat-card>
       </mat-grid-tile>
+    <mat-grid-tile>
+      <mat-card>
+        <mat-card-header>
+          <div mat-card-avatar></div>
+          <mat-card-title>Machine Wartung</mat-card-title>
+          <mat-card-subtitle>Endkalkung starten</mat-card-subtitle>
+        </mat-card-header>
+        <mat-card-content>
+          <ng-container *ngIf="antiLimingStatus === _backflushStatus.NotFlushing">
+            <button
+                    mat-flat-button
+                    color="primary"
+                    [disabled]=" socketService.machineStatus && !socketService.machineStatus.machineEnabled ? true : false"
+                    (click)="startAntiLiming()"
+                    style="margin-top: 25px;
+                       margin-bottom: 18px">
+              Endkalkung starten
+            </button>
+          </ng-container>
+          <ng-container *ngIf="antiLimingStatus === _backflushStatus.PendingForFlush">
+            <div class="row justify-content-center">
+              <div class="col-12">
+                <mat-progress-bar style="width: 95%" mode="indeterminate"></mat-progress-bar>
+              </div>
+            </div>
+          </ng-container>
+          <ng-container *ngIf="antiLimingStatus === _backflushStatus.Flushing">
+            <div class="row justify-content-center">
+              <div class="col-12">
+                <mat-progress-bar mode="determinate" [value]="flushProgress"></mat-progress-bar>
+              </div>
+            </div>
+            <button
+                    mat-flat-button
+                    color="primary"
+                    (click)="cancelFlushing()"
+                    style="margin-top: 25px;
+                       margin-bottom: 18px">
+              Abbrechen
+            </button>
+          </ng-container>
+        </mat-card-content>
+      </mat-card>
+    </mat-grid-tile>
   </mat-grid-list>
 </div>

@@ -5,8 +5,7 @@ import {MachineStatusModel} from '../../../services/models/machine-status.model'
 import {BackendStatusEnum} from '../../../services/models/backend-status.enum';
 import {BrewService} from '../../../services/brew.service';
 import {BrewStatusEnum} from '../../../services/models/brew-status.enum';
-import * as SockJS from 'sockjs-client';
-import {environment} from '../../../environments/environment';
+import {SocketService} from '../../../services/socket.service';
 
 @Component({
   selector: 'app-machine-status',
@@ -14,11 +13,6 @@ import {environment} from '../../../environments/environment';
   styleUrls: ['./machine-status.component.scss']
 })
 export class MachineStatusComponent implements OnInit, OnDestroy {
-
-  sockJS;
-
-  // models
-  _machineStatus: MachineStatusModel;
 
   // Subscriptions
   machineStatusSubscription: Subscription;
@@ -34,22 +28,23 @@ export class MachineStatusComponent implements OnInit, OnDestroy {
   breakpoint: number;
 
   constructor(private machineStatusService: MachineStatusService,
-              private brewService: BrewService) {}
+              private brewService: BrewService,
+              public socketService: SocketService) {}
 
   ngOnInit() {
-    this.machineStatusStatus = BackendStatusEnum.LOADING;
+      if (this.socketService.machineStatus) {
+          this.machineStatusStatus = BackendStatusEnum.SUCCESS;
+      } else {
+          this.machineStatusStatus = BackendStatusEnum.LOADING;
+      }
     this.brewCoffeeStatus = BrewStatusEnum.NotBrewing;
     this.breakpoint = (window.innerWidth <= 720) ? 1 : (window.innerWidth <= 1460) ? 2 : 4;
-
-    this.sockJS = new SockJS(`${environment.apiBaseUrl}:${environment.apiPort}${environment.sockJSBaseRef}`);
-      const onMessageFunction: Function = function(e) {
-          this._machineStatus = JSON.parse(e.data);
-          if (!this._machineStatus.machineEnabled) {
-              this.brewCoffeeStatus = BrewStatusEnum.NotBrewing;
-          }
-          this.machineStatusStatus = BackendStatusEnum.SUCCESS;
-      };
-    this.sockJS.onmessage = onMessageFunction.bind(this);
+    this.socketService.connectionReady.subscribe(() => {
+        if (this.socketService.machineStatus) {
+            this.machineStatusStatus = BackendStatusEnum.SUCCESS;
+        }
+    });
+    this.socketService.createSockJS();
   }
 
   ngOnDestroy(): void {

@@ -1,5 +1,5 @@
 import { BrowserModule } from '@angular/platform-browser';
-import { NgModule } from '@angular/core';
+import {APP_INITIALIZER, NgModule} from '@angular/core';
 
 import { AppComponent } from './app.component';
 import {BrowserAnimationsModule} from '@angular/platform-browser/animations';
@@ -28,6 +28,8 @@ import {MatProgressBarModule} from '@angular/material/progress-bar';
 import {ScrollingModule} from '@angular/cdk/scrolling';
 import {APP_ROUTING} from './app-routing.module';
 import {MaintenanceService} from '../services/maintenance.service';
+import {AppInitializerService} from '../services/app-initializer.service';
+import {NotAuthenticatedComponent} from './shared/not-authenticated/not-authenticated.component';
 
 @NgModule({
   declarations: [
@@ -36,7 +38,8 @@ import {MaintenanceService} from '../services/maintenance.service';
     MachineMaintenanceComponent,
     MachineStatusComponent,
     PageNotFoundComponent,
-    TimeAgoPipe
+    TimeAgoPipe,
+    NotAuthenticatedComponent
   ],
   imports: [
       APP_ROUTING,
@@ -60,6 +63,12 @@ import {MaintenanceService} from '../services/maintenance.service';
       ScrollingModule
   ],
   providers: [
+      {
+          provide: APP_INITIALIZER,
+          useFactory: (appInitializer: AppInitializerService): any => appInitializer.loginOnAppInit(),
+          deps: [AppInitializerService],
+          multi: true
+      },
       BrewService,
       MachineStatusService,
       MaintenanceService
