@@ -30,12 +30,14 @@ export class MachineMaintenanceComponent implements OnInit, OnDestroy {
     flushProgress: number;
     _backflushStatus: any = BackflushingStatusEnum;
     backflushingStatus: BackflushingStatusEnum;
+    antiLimingStatus: BackflushingStatusEnum;
 
     constructor(private machineStatusService: MachineStatusService,
                 private maintenanceService: MaintenanceService) { }
 
   ngOnInit() {
       this.backflushingStatus = BackflushingStatusEnum.NotFlushing;
+      this.antiLimingStatus = BackflushingStatusEnum.NotFlushing;
       this.sockJS = new SockJS(`${environment.apiBaseUrl}:${environment.apiPort}${environment.sockJSBaseRef}`);
       const onMessageFunction: Function = function(e) {
           this._machineStatus = JSON.parse(e.data);
@@ -65,8 +67,15 @@ export class MachineMaintenanceComponent implements OnInit, OnDestroy {
         });
     }
 
+    startAntiLiming(): void {
+        this.antiLimingStatus = BackflushingStatusEnum.PendingForFlush;
+        this.maintenanceSubscription = this.maintenanceService.startAntiLiming().subscribe(() => {
+            this.startAntiLimingCountdown();
+        });
+    }
+
     cancelFlushing(): void {
-        this.cancelMaintenanceSubscription = this.maintenanceService.cancelBackflashing().subscribe(() => {
+        this.cancelMaintenanceSubscription = this.maintenanceService.cancelMaintenance().subscribe(() => {
             this.backflushingStatus = BackflushingStatusEnum.NotFlushing;
         });
     }
@@ -74,6 +83,21 @@ export class MachineMaintenanceComponent implements OnInit, OnDestroy {
     private startFlushingCountdown(): void {
         this.backflushingStatus = BackflushingStatusEnum.Flushing;
         const timer: number = 171 / 100 * 1000;
+        this.flushProgress = 0;
+        let intervallID: number;
+        const intervallFunction: any = function () {
+            this.flushProgress = this.flushProgress + 1;
+            if (this.flushProgress === 100) {
+                this.backflushingStatus = BackflushingStatusEnum.NotFlushing;
+                clearInterval(intervallID);
+            }
+        };
+        intervallID = setInterval(intervallFunction.bind(this), timer);
+    }
+
+    private startAntiLimingCountdown(): void {
+        this.antiLimingStatus = BackflushingStatusEnum.Flushing;
+        const timer: number = 2895 / 100 * 1000;
         this.flushProgress = 0;
         let intervallID: number;
         const intervallFunction: any = function () {

@@ -1,6 +1,6 @@
 import {Injectable} from '@angular/core';
 import {HttpClient} from '@angular/common/http';
-import {Observable} from 'rxjs';
+import {Observable, of} from 'rxjs';
 import {environment} from '../environments/environment';
 
 @Injectable()
@@ -15,9 +15,15 @@ export class MaintenanceService {
         );
     }
 
-    cancelBackflashing(): Observable<any> {
+    cancelMaintenance(): Observable<any> {
         return this.http.put(
-            `${environment.apiBaseUrl}:${environment.apiPort}${environment.apiBaseRef}/cancelBackFlush`, null
+            `${environment.apiBaseUrl}:${environment.apiPort}${environment.apiBaseRef}/cancelMaintenance`, null
+        );
+    }
+
+    startAntiLiming(): Observable<any> {
+        return this.http.put(
+            `${environment.apiBaseUrl}:${environment.apiPort}${environment.apiBaseRef}/antiLiming`, null
         );
     }
 
