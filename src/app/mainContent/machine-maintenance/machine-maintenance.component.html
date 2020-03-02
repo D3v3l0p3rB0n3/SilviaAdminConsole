@@ -12,7 +12,7 @@
               <button
                       mat-flat-button
                       color="primary"
-                      [disabled]=" _machineStatus && !_machineStatus.machineEnabled ? true : false"
+                      [disabled]="socketService.machineStatus && !socketService.machineStatus.machineEnabled ? true : false"
                       (click)="startFlushing()"
                       style="margin-top: 25px;
                        margin-bottom: 18px">
@@ -56,7 +56,7 @@
             <button
                     mat-flat-button
                     color="primary"
-                    [disabled]=" _machineStatus && !_machineStatus.machineEnabled ? true : false"
+                    [disabled]=" socketService.machineStatus && !socketService.machineStatus.machineEnabled ? true : false"
                     (click)="startAntiLiming()"
                     style="margin-top: 25px;
                        margin-bottom: 18px">

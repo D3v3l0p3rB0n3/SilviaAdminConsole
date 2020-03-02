@@ -2,12 +2,8 @@ import {Component, OnDestroy, OnInit} from '@angular/core';
 import {MaintenanceService} from '../../../services/maintenance.service';
 import {BackflushingStatusEnum} from '../../../services/models/backflushing-status.enum';
 import {MachineStatusService} from '../../../services/machine-status.service';
-import {MachineStatusModel} from '../../../services/models/machine-status.model';
 import {Subscription} from 'rxjs';
-import * as SockJS from 'sockjs-client';
-import {environment} from '../../../environments/environment';
-import {BackendStatusEnum} from '../../../services/models/backend-status.enum';
-import {BrewStatusEnum} from '../../../services/models/brew-status.enum';
+import {SocketService} from '../../../services/socket.service';
 
 @Component({
   selector: 'app-machine-maintenance',
@@ -15,10 +11,6 @@ import {BrewStatusEnum} from '../../../services/models/brew-status.enum';
   styleUrls: ['./machine-maintenance.component.scss']
 })
 export class MachineMaintenanceComponent implements OnInit, OnDestroy {
-    sockJS;
-
-    // models
-    _machineStatus: MachineStatusModel;
 
     // Subscriptions
     machineStatusSubscription: Subscription;
@@ -33,16 +25,16 @@ export class MachineMaintenanceComponent implements OnInit, OnDestroy {
     antiLimingStatus: BackflushingStatusEnum;
 
     constructor(private machineStatusService: MachineStatusService,
-                private maintenanceService: MaintenanceService) { }
+                private maintenanceService: MaintenanceService,
+                public socketService: SocketService) { }
 
   ngOnInit() {
       this.backflushingStatus = BackflushingStatusEnum.NotFlushing;
       this.antiLimingStatus = BackflushingStatusEnum.NotFlushing;
-      this.sockJS = new SockJS(`${environment.apiBaseUrl}:${environment.apiPort}${environment.sockJSBaseRef}`);
-      const onMessageFunction: Function = function(e) {
-          this._machineStatus = JSON.parse(e.data);
-      };
-      this.sockJS.onmessage = onMessageFunction.bind(this);
+      this.socketService.connectionReady.subscribe(() => {
+          // maybe do something here
+      });
+      this.socketService.createSockJS();
       this.breakpoint = (window.innerWidth <= 720) ? 1 : (window.innerWidth <= 1460) ? 2 : 4;
   }
 
