@@ -1,6 +1,6 @@
 export const environment = {
     production: true,
-    apiBaseUrl: 'https://silviabackend.​woyencxzxtqhkwyd.​myfritz.​net',
+    apiBaseUrl: 'http://192.168.2.114',
     apiBaseRef: '',
     sockJSBaseRef: '/machineStatusWebSocket',
     apiPort: '8081'

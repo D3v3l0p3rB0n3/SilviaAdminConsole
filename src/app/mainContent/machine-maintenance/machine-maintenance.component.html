@@ -1,49 +1,49 @@
 <div class="maintenance-container">
   <mat-grid-list [cols]="breakpoint" rowHeight="20:11" (window:resize)="onResize($event)" [class.centerContentFull]="breakpoint === 4" [class.centerContentMD]="breakpoint === 2" [class.centerContentS]="breakpoint === 1">
     <mat-grid-tile>
-        <mat-card>
-          <mat-card-header>
-            <div mat-card-avatar></div>
-            <mat-card-title>Machine Wartung</mat-card-title>
-            <mat-card-subtitle>Rückspülung starten</mat-card-subtitle>
-          </mat-card-header>
-          <mat-card-content>
-            <ng-container *ngIf="backflushingStatus === _backflushStatus.NotFlushing">
-              <button
-                      mat-flat-button
-                      color="primary"
-                      [disabled]="socketService.machineStatus && !socketService.machineStatus.machineEnabled ? true : false"
-                      (click)="startFlushing()"
-                      style="margin-top: 25px;
+      <mat-card>
+        <mat-card-header>
+          <div mat-card-avatar></div>
+          <mat-card-title>Machine Wartung</mat-card-title>
+          <mat-card-subtitle>Rückspülung starten</mat-card-subtitle>
+        </mat-card-header>
+        <mat-card-content>
+          <ng-container *ngIf="backflushingStatus === _backflushStatus.NotFlushing">
+            <button
+                    mat-flat-button
+                    color="primary"
+                    [disabled]="socketService.machineStatus && !socketService.machineStatus.machineEnabled ? true : false"
+                    (click)="startFlushing()"
+                    style="margin-top: 25px;
                        margin-bottom: 18px">
-                Rückspülung starten
-              </button>
-            </ng-container>
-            <ng-container *ngIf="backflushingStatus === _backflushStatus.PendingForFlush">
-              <div class="row justify-content-center">
-                <div class="col-12">
-                  <mat-progress-bar style="width: 95%" mode="indeterminate"></mat-progress-bar>
-                </div>
+              Rückspülung starten
+            </button>
+          </ng-container>
+          <ng-container *ngIf="backflushingStatus === _backflushStatus.PendingForFlush">
+            <div class="row justify-content-center">
+              <div class="col-12">
+                <mat-progress-bar style="width: 95%" mode="indeterminate"></mat-progress-bar>
               </div>
-            </ng-container>
-            <ng-container *ngIf="backflushingStatus === _backflushStatus.Flushing">
-              <div class="row justify-content-center">
-                <div class="col-12">
-                  <mat-progress-bar mode="determinate" [value]="flushProgress"></mat-progress-bar>
-                </div>
+            </div>
+          </ng-container>
+          <ng-container *ngIf="backflushingStatus === _backflushStatus.Flushing">
+            <div class="row justify-content-center">
+              <div class="col-12">
+                <mat-progress-bar mode="determinate" [value]="flushProgress"></mat-progress-bar>
               </div>
-              <button
-                      mat-flat-button
-                      color="primary"
-                      (click)="cancelFlushing()"
-                      style="margin-top: 25px;
+            </div>
+            <button
+                    mat-flat-button
+                    color="primary"
+                    (click)="cancelFlushing()"
+                    style="margin-top: 25px;
                        margin-bottom: 18px">
-                Abbrechen
-              </button>
-            </ng-container>
-          </mat-card-content>
-        </mat-card>
-      </mat-grid-tile>
+              Abbrechen
+            </button>
+          </ng-container>
+        </mat-card-content>
+      </mat-card>
+    </mat-grid-tile>
     <mat-grid-tile>
       <mat-card>
         <mat-card-header>

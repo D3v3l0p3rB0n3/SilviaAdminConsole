@@ -11,7 +11,6 @@ const routes: Routes = [
         component: MachineStatusComponent
     },
     {path: 'startTimeplan', component: AutoStartTimeplanComponent},
-    {path: '401', component: NotAuthenticatedComponent},
     {
         path: 'maintenance',
         component: MachineMaintenanceComponent

@@ -63,12 +63,6 @@ import {NotAuthenticatedComponent} from './shared/not-authenticated/not-authenti
       ScrollingModule
   ],
   providers: [
-      {
-          provide: APP_INITIALIZER,
-          useFactory: (appInitializer: AppInitializerService): any => appInitializer.loginOnAppInit(),
-          deps: [AppInitializerService],
-          multi: true
-      },
       BrewService,
       MachineStatusService,
       MaintenanceService

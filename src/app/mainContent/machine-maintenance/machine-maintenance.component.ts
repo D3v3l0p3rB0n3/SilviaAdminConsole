@@ -6,9 +6,9 @@ import {Subscription} from 'rxjs';
 import {SocketService} from '../../../services/socket.service';
 
 @Component({
-  selector: 'app-machine-maintenance',
-  templateUrl: './machine-maintenance.component.html',
-  styleUrls: ['./machine-maintenance.component.scss']
+    selector: 'app-machine-maintenance',
+    templateUrl: './machine-maintenance.component.html',
+    styleUrls: ['./machine-maintenance.component.scss']
 })
 export class MachineMaintenanceComponent implements OnInit, OnDestroy {
 
@@ -28,15 +28,15 @@ export class MachineMaintenanceComponent implements OnInit, OnDestroy {
                 private maintenanceService: MaintenanceService,
                 public socketService: SocketService) { }
 
-  ngOnInit() {
-      this.backflushingStatus = BackflushingStatusEnum.NotFlushing;
-      this.antiLimingStatus = BackflushingStatusEnum.NotFlushing;
-      this.socketService.connectionReady.subscribe(() => {
-          // maybe do something here
-      });
-      this.socketService.createSockJS();
-      this.breakpoint = (window.innerWidth <= 720) ? 1 : (window.innerWidth <= 1460) ? 2 : 4;
-  }
+    ngOnInit() {
+        this.backflushingStatus = BackflushingStatusEnum.NotFlushing;
+        this.antiLimingStatus = BackflushingStatusEnum.NotFlushing;
+        this.socketService.connectionReady.subscribe(() => {
+            // maybe do something here
+        });
+        this.socketService.createSockJS();
+        this.breakpoint = (window.innerWidth <= 720) ? 1 : (window.innerWidth <= 1460) ? 2 : 4;
+    }
 
     onResize(event) {
         this.breakpoint =
